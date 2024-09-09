@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTimer } from 'react-timer-hook';
 
 interface MyTimerProps {
@@ -19,7 +19,7 @@ const MyTimer: React.FC<MyTimerProps> = ({ expiryTimestamp }) => {
     pause,
     resume,
     restart,
-  } = useTimer({ expiryTimestamp, onExpire: () => console.warn('Timer expired') });
+  } = useTimer({ expiryTimestamp, onExpire: () => console.info('Timer expired') });
 
   const handleStart = () => {
     if (seconds === 0 && minutes === 0 && hours === 0 && days === 0) {
@@ -41,8 +41,8 @@ const MyTimer: React.FC<MyTimerProps> = ({ expiryTimestamp }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{days}d {hours}h {minutes}m {seconds}s</Text>
-      <Text style={styles.text}>{isRunning ? 'Running' : 'Not running'}</Text>
+      <Text style={styles.timeText}>{days}d {hours}h {minutes}m {seconds}s</Text>
+      <Text style={styles.StatusText}>{isRunning ? 'Running' : 'Not running'}</Text>
       <TouchableOpacity style={[styles.touchButton]} onPressIn={handleStart}>
         <Text style = {styles.buttonText}>Start</Text>
       </TouchableOpacity>
@@ -70,63 +70,54 @@ const App: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  timerContainer: {
+    backgroundColor: '#1E1E1E', // Slightly lighter dark background
+    padding: 20,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+    alignItems: 'center',
+  },
   touchButton:{
     
-    backgroundColor: '#262626',
+    backgroundColor: '#BB86FC',
     padding: 15,
     marginVertical: 10,
     borderRadius: 5,
-    width: '80%',
+    width: '50%',
     alignItems: 'center',
 
   },
   buttonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
+    color: '#121212', // Dark text on light button
+    fontSize: 16,
     fontWeight: 'bold',
   },
   container: {
-    backgroundColor:"#454545",
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    backgroundColor: '#121212', // Dark background
+    padding: 16,
   },
-  text: {
-    fontSize: 30,
-    marginBottom: 20,
-    color:'#ffff'
+  timeText: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    color: '#E0E0E0', // Light grey text
+    marginBottom: 16,
+  },
+  StatusText: {
+    fontSize: 24,
+    color: '#B0B0B0', // Medium grey text
+    marginBottom: 16,
   },
   buttonContainer: {
-    flex: 0.5,
-    padding: 5,
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    marginVertical: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     width: '80%',
-    borderRadius: 5,
-    marginTop: 100,
-    alignItems: 'center',
-    margin: 0,
-    
-    ...Platform.select({
-      ios: {
-        borderWidth: 1,
-        marginVertical: 50,
-        backgroundColor: '#007BFF',
-        cornerRadius: 25,
-        shadowColor: '#FFFF',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.8,
-        shadowRadius: 0,
-      },
-      android: {
-        elevation: 5,
-      },
-      web: {
-        boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.3)',
-      },
-    }),
   },
 });
 
