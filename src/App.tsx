@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import { View, Text, Button, StyleSheet, Platform, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import { useTimer } from 'react-timer-hook';
 
 interface MyTimerProps {
@@ -35,22 +35,24 @@ const MyTimer: React.FC<MyTimerProps> = ({ expiryTimestamp }) => {
           time.setSeconds(time.getSeconds() + 5); // 10 minutes timer
           restart(time);
   };
+  const handlePause = () => {
+   isRunning ? pause() : resume()
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{days}d {hours}h {minutes}m {seconds}s</Text>
       <Text style={styles.text}>{isRunning ? 'Running' : 'Not running'}</Text>
       <TouchableOpacity style={[styles.touchButton]} onPressIn={handleStart}>
-        <Text style = {styles.buttonText}>Button 1</Text>
+        <Text style = {styles.buttonText}>Start</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.touchButton]} onPressIn={pause}>
-        <Text style = {styles.buttonText}>Pause</Text>
+      
+      <TouchableOpacity style={[styles.touchButton]} onPressIn={handlePause}>
+        <Text style = {styles.buttonText}>{isRunning ? 'Pause' : 'Resume'}</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.touchButton]} onPressIn={resume}>
-        <Text style = {styles.buttonText}>Resume</Text>
-      </TouchableOpacity>
+    
       <TouchableOpacity style={[styles.touchButton]} onPressIn={handleRestart}>
-        <Text style = {styles.buttonText}>Button 1</Text>
+        <Text style = {styles.buttonText}>Restart</Text>
       </TouchableOpacity>
     </View>
   );
