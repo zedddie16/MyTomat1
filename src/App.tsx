@@ -1,8 +1,9 @@
 
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTimer } from 'react-timer-hook';
+import { Audio } from 'expo-av';
 
 interface MyTimerProps {
   expiryTimestamp: Date;
@@ -19,11 +20,11 @@ const MyTimer: React.FC<MyTimerProps> = ({ expiryTimestamp }) => {
     pause,
     resume,
     restart,
-  } = useTimer({ expiryTimestamp, onExpire: () => console.info('Timer expired') });
+  } = useTimer({ expiryTimestamp, onExpire: () => {playSound(); console.info('Timer expired')} });
 
   const handleWork = () => {
     const time = new Date();
-    time.setSeconds(time.getSeconds() + 1500); // 10 minutes timer
+    time.setSeconds(time.getSeconds() + 3); // 10 minutes timer
     restart(time);
   };
   const handleRest = () => {
@@ -34,10 +35,20 @@ const MyTimer: React.FC<MyTimerProps> = ({ expiryTimestamp }) => {
   const handlePause = () => {
    isRunning ? pause() : resume()
   }
+  const playSound = async () => {
+    try {
+      const { sound } = await Audio.Sound.createAsync(
+        require('../assets/alarm.wav') // Adjusted path
+      );
+      await sound.playAsync();
+    } catch (error) {
+      console.error('Error playing sound:', error);
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.timeText}>{days}d {hours}h {minutes}m {seconds}s</Text>
+      <Text style={styles.timeText}>{minutes}m {seconds}s</Text>
       <Text style={styles.StatusText}>{isRunning ? 'Running' : 'Not running'}</Text>
       <TouchableOpacity style={[styles.touchButton]} onPressIn={handleWork}>
         <Text style = {styles.buttonText}>Start Work</Text>
