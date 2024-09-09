@@ -21,18 +21,14 @@ const MyTimer: React.FC<MyTimerProps> = ({ expiryTimestamp }) => {
     restart,
   } = useTimer({ expiryTimestamp, onExpire: () => console.info('Timer expired') });
 
-  const handleStart = () => {
-    if (seconds === 0 && minutes === 0 && hours === 0 && days === 0) {
-      const time = new Date();
-      time.setSeconds(time.getSeconds() + 5); // 10 minutes timer
-      restart(time);
-    } else {
-      start();
-    }
-  };
-  const handleRestart = () => {
+  const handleWork = () => {
     const time = new Date();
-          time.setSeconds(time.getSeconds() + 5); // 10 minutes timer
+    time.setSeconds(time.getSeconds() + 1500); // 10 minutes timer
+    restart(time);
+  };
+  const handleRest = () => {
+    const time = new Date();
+          time.setSeconds(time.getSeconds() + 300); // 10 minutes timer
           restart(time);
   };
   const handlePause = () => {
@@ -43,16 +39,16 @@ const MyTimer: React.FC<MyTimerProps> = ({ expiryTimestamp }) => {
     <View style={styles.container}>
       <Text style={styles.timeText}>{days}d {hours}h {minutes}m {seconds}s</Text>
       <Text style={styles.StatusText}>{isRunning ? 'Running' : 'Not running'}</Text>
-      <TouchableOpacity style={[styles.touchButton]} onPressIn={handleStart}>
-        <Text style = {styles.buttonText}>Start</Text>
+      <TouchableOpacity style={[styles.touchButton]} onPressIn={handleWork}>
+        <Text style = {styles.buttonText}>Start Work</Text>
       </TouchableOpacity>
       
       <TouchableOpacity style={[styles.touchButton]} onPressIn={handlePause}>
         <Text style = {styles.buttonText}>{isRunning ? 'Pause' : 'Resume'}</Text>
       </TouchableOpacity>
     
-      <TouchableOpacity style={[styles.touchButton]} onPressIn={handleRestart}>
-        <Text style = {styles.buttonText}>Restart</Text>
+      <TouchableOpacity style={[styles.touchButton]} onPressIn={handleRest}>
+        <Text style = {styles.buttonText}>Start Rest</Text>
       </TouchableOpacity>
     </View>
   );
