@@ -1,6 +1,6 @@
 
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTimer } from 'react-timer-hook';
 import { Audio } from 'expo-av';
@@ -13,10 +13,7 @@ const MyTimer: React.FC<MyTimerProps> = ({ expiryTimestamp }) => {
   const {
     seconds,
     minutes,
-    hours,
-    days,
     isRunning,
-    start,
     pause,
     resume,
     restart,
@@ -24,7 +21,7 @@ const MyTimer: React.FC<MyTimerProps> = ({ expiryTimestamp }) => {
 
   const handleWork = () => {
     const time = new Date();
-    time.setSeconds(time.getSeconds() + 3); // 10 minutes timer
+    time.setSeconds(time.getSeconds() + 1500); // 10 minutes timer
     restart(time);
   };
   const handleRest = () => {
@@ -47,7 +44,7 @@ const MyTimer: React.FC<MyTimerProps> = ({ expiryTimestamp }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.timerContainer}>
       <Text style={styles.timeText}>{minutes}m {seconds}s</Text>
       <Text style={styles.StatusText}>{isRunning ? 'Running' : 'Not running'}</Text>
       <TouchableOpacity style={[styles.touchButton]} onPressIn={handleWork}>
@@ -67,7 +64,7 @@ const MyTimer: React.FC<MyTimerProps> = ({ expiryTimestamp }) => {
 
 const App: React.FC = () => {
   const time = new Date();
-  time.setSeconds(time.getSeconds() + 5); // 10 minutes timer
+  time.setSeconds(time.getSeconds() + 1500); // 10 minutes timer
 
   return (
     <View style={styles.container}>
@@ -85,18 +82,23 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
-    elevation: 5,
+    elevation: 3,
     alignItems: 'center',
+    justifyContent: 'space-between'
   },
   touchButton:{
-    
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 3,
     backgroundColor: '#BB86FC',
     padding: 15,
     marginVertical: 10,
-    borderRadius: 5,
-    width: '50%',
-    alignItems: 'center',
-
+    alignItems: "center",
+    width: 200,
+    height: 50,
   },
   buttonText: {
     color: '#121212', // Dark text on light button
@@ -117,14 +119,15 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   StatusText: {
+    flex: 1,
     fontSize: 24,
     color: '#B0B0B0', // Medium grey text
     marginBottom: 16,
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '80%',
+    justifyContent: 'center',
+    width: '100%',
   },
 });
 
